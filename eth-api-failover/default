@@ -1,5 +1,8 @@
 access_log on;
 
+log_format main '$remote_addr - $remote_user [$time_local] $server_name '
+                    '"$request" $status "$http_referer" "$http_user_agent"';
+
 # define eth api providers
 upstream providers {
     server 127.0.0.1:8443 fail_timeout=600s max_fails=2;

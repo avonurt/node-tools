@@ -9,12 +9,12 @@ upstream providers {
     server 127.0.0.1:8444 backup;
 }
 
-# define infura provider
+# define local provider, for those who are running eth node locally
 server {
     # pad the server name for log alignment with alchemy
-    server_name 'mainnet.infura.io';
+    server_name 'primary_api';
     listen 127.0.0.1:8443;
-    location / { proxy_pass https://mainnet.infura.io/v3/${INFURA_KEY}; }
+    location / { proxy_pass http://127.0.0.1:8777; }
     access_log /var/log/nginx/access.log main;
 }
 
@@ -29,7 +29,10 @@ server {
 # define general interface
 server {
     listen 127.0.0.1:7777;
-    location / { proxy_pass http://providers; }
+    location / { 
+        proxy_pass http://providers; 
+        proxy_next_upstream timeout http_502 non_idempotent;
+    }
     proxy_connect_timeout 5;
     proxy_read_timeout 5;
     proxy_send_timeout 5;

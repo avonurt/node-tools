@@ -1,4 +1,4 @@
-#Example of failover strategy for those who need to call ETH API
+# Example of failover strategy for those who need to call ETH API
 
 ## Install nginx
 
